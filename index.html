@@ -23,7 +23,7 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;overflow-x:clip;hyphens:none}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--body);overflow-x:hidden}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.6 var(--body)}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:8px}
 .wrap{max-width:1180px;margin:0 auto;padding:0 16px}
@@ -98,7 +98,7 @@ section.block{padding:72px 0;border-top:1px solid var(--line)}
 .devices .phone{--pw:clamp(118px,13vw,150px);margin-left:-60px;margin-bottom:-16px;z-index:2}
 .devices.solo .phone{--pw:clamp(180px,22vw,230px);margin:0}
 .case-text .meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;color:var(--ink-3);font-size:14px}
-.badge{display:inline-flex;align-items:center;gap:6px;font:600 12px/1 var(--body);letter-spacing:.04em;padding:7px 11px;border-radius:999px}
+.badge{display:none!important;align-items:center;gap:6px;font:600 12px/1 var(--body);letter-spacing:.04em;padding:7px 11px;border-radius:999px}
 .badge.real{background:var(--accent);color:#fff}
 .badge.demo{background:var(--soft);color:var(--ink-2)}
 .badge.study{background:transparent;color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent)}
@@ -136,6 +136,7 @@ section.block{padding:72px 0;border-top:1px solid var(--line)}
 .niches span{font-size:14px;color:var(--ink-3)}
 .more{display:flex;justify-content:center;padding-top:24px}
 #moreCases .case:first-child{border-top:1px dashed var(--line)}
+section[id]{scroll-margin-top:72px}
 #works{scroll-margin-top:64px}
 .niche-note{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;margin:0 0 8px;padding:14px 18px;border-radius:var(--r);background:var(--soft);color:var(--ink-2);font-size:15px}
 .niche-note[hidden]{display:none}
@@ -280,12 +281,13 @@ footer{padding:26px 0 40px;color:var(--ink-3);font-size:14px;display:flex;flex-w
   const word = (n, a, b, c) => { const m = n % 10, h = n % 100; return m === 1 && h !== 11 ? a : m >= 2 && m <= 4 && (h < 12 || h > 14) ? b : c; };
   $('facts').innerHTML = [
     cases.length ? `<span><b>${cases.length}</b>${word(cases.length, 'сайт', 'сайта', 'сайтов')} в работах</span>` : '',
-    real ? `<span><b>${real}</b>${word(real, 'реальный заказ', 'реальных заказа', 'реальных заказов')}</span>` : '',
+    false ? `<span><b>${real}</b>${word(real, 'реальный заказ', 'реальных заказа', 'реальных заказов')}</span>` : '',
     niches.length ? `<span><b>${niches.length}</b>${word(niches.length, 'ниша', 'ниши', 'ниш')}</span>` : ''
   ].join('');
   const kinds = new Set(cases.map((c) => c.kind || 'demo'));
   if (kinds.size > 1) $('worksNote').textContent = [kinds.has('real') && '«Реальный заказ» – за сайт заплатил владелец', kinds.has('study') && '«Учебный кейс» – задача из обучения', kinds.has('demo') && '«Демо-проект» – сайт, собранный на пробу'].filter(Boolean).join('. ') + '.';
   else $('worksNote').textContent = real && real < cases.length ? '«Реальный заказ» – сайт, за который заплатил владелец. «Демо-проект» – собранный на пробу, «Учебный кейс» – задача из обучения.' : real ? 'Все работы – реальные заказы.' : 'Демо-проекты: так выглядят сайты, которые я собираю для бизнесов.';
+  $('worksNote').textContent = 'Так выглядят сайты, которые я собираю для бизнесов: откройте любой и посмотрите вживую.';
 
   // мессенджеры: ссылка с готовым текстом; для MAX текст копируется в буфер
   const msg = D.message || 'Здравствуйте! Хочу заказать сайт.';
