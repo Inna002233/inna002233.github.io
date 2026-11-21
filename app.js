@@ -11,16 +11,18 @@
   const ico = {
     telegram: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.6l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6L20.5 3c.9-.3 1.7.2 1.4 1.3z"/></svg>',
     whatsapp: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.8 14.1c-.2.7-1.4 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-3.2-1.1-5.3-4.3-5.4-4.5-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 .9c.3.2.5.2.6.4.1.1.1.7-.1 1.4z"/></svg>',
+    bot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 4v4M9 13h.01M15 13h.01M9 16.5h6"/></svg>',
     max: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5A9.5 9.5 0 0 0 2.5 12c0 1.9.6 3.7 1.5 5.2L3 21l3.9-1a9.5 9.5 0 1 0 5.1-17.5zm-4 6.2h2l2 3.4 2-3.4h2v6.6h-1.8v-3.9l-1.8 3h-.8l-1.8-3v3.9H8z"/></svg>'
   };
-  const names = { telegram: 'Telegram', whatsapp: 'WhatsApp', max: 'MAX' };
+  const names = { telegram: 'Telegram', whatsapp: 'WhatsApp', max: 'MAX', bot: 'Мой бот-помощник' };
   const hrefs = (k, text) => {
     const t = encodeURIComponent(text);
     if (k === 'telegram') return `https://t.me/${String(M.telegram).replace(/^@/, '')}?text=${t}`;
     if (k === 'whatsapp') return `https://wa.me/${String(M.whatsapp).replace(/\D/g, '')}?text=${t}`;
+    if (k === 'bot') return `https://t.me/${String(M.bot).replace(/^@/, '')}`;
     return M.max;
   };
-  const avail = ['telegram', 'whatsapp', 'max'].filter((k) => M[k]);
+  const avail = ['telegram', 'whatsapp', 'max', 'bot'].filter((k) => M[k]);
   const toast = (t) => { const el = $('toast'); el.textContent = t; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 3200); };
   const btnHtml = (text, pick) => (pick ? [pick] : avail).map((k, i) =>
     `<a class="btn ${i === 0 && !pick ? 'btn-main' : 'btn-ghost'}" href="${esc(hrefs(k, text))}" target="_blank" rel="noopener" data-msg="${esc(text)}" ${k === 'max' ? 'data-copy' : ''}>${ico[k]}${names[k]}</a>`).join('');
